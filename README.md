@@ -14,7 +14,6 @@ In an LACP (Link Aggregation Control Protocol) connection, the client is typical
 # LACP Negotiation
 ```mermaid
 graph LR
-  Start --> |Send LACPDU| LACP_Participant
   LACP_Participant --> |Receive LACPDU| Layer2_Switch
   Layer2_Switch --> |Process received LACPDU| LACP_Participant
   LACP_Participant --> |Wait for LACPDU| LACP_Participant
@@ -33,8 +32,6 @@ graph LR
   Layer2_Switch --> |Check LACPDU Fields| Layer2_Switch
   LACP_Participant --> |Are LACPDU Fields Compatible?| Layer2_Switch
   Layer2_Switch --> |Are LACPDU Fields Compatible?| LACP_Participant
-  LACP_Participant --> |Negotiation Complete!| End
-  Layer2_Switch --> |Negotiation Complete!| End
 ```
 Below is the process through which an LACP participant negotiates a LAG (Link Aggregation Group) with a Layer 2 switch:
 
