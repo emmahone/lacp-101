@@ -258,3 +258,83 @@ The `IEEE 802.3ad` standard, which defines Link Aggregation Control Protocol (LA
 - `Enhanced Load Balancing`: Load balancing algorithms have been refined over time to improve traffic distribution across aggregated links. Newer versions of the standard allow for more sophisticated load balancing schemes based on Layer 3 and Layer 4 information, such as source and destination IP addresses or transport protocol ports.
 
 It's important to note that while the IEEE 802.3ad standard has evolved, the basic principles and functionality of LACP have remained largely consistent. The updates and amendments primarily focus on enhancing interoperability, accommodating higher speeds, and adapting to changing network requirements.
+
+
+```yaml
+# cat /proc/net/bonding/bond0
+Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
+
+Bonding Mode: IEEE 802.3ad Dynamic link aggregation
+Transmit Hash Policy: layer2 (0)
+MII Status: up
+MII Polling Interval (ms): 1
+Up Delay (ms): 0
+Down Delay (ms): 0
+
+802.3ad info
+LACP rate: fast
+Min links: 0
+Aggregator selection policy (ad_select): stable
+System priority: 65535
+System MAC address: aa:bb:cc:dd:ee:ff
+Active Aggregator Info:
+        Aggregator ID: 20
+        Number of ports: 2
+        Actor Key: 9
+        Partner Key: 11
+        Partner Mac Address: aa:aa:aa:aa:aa:aa
+
+Slave Interface: ens3f0
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 1
+Permanent HW addr: aa:bb:cc:dd:ee:ff
+Slave queue ID: 0
+Aggregator ID: 20
+Actor Churn State: none
+Partner Churn State: none
+Actor Churned Count: 0
+Partner Churned Count: 0
+details actor lacp pdu:
+    system priority: 65535
+    system mac address: aa:bb:cc:dd:ee:ff
+    port key: 9
+    port priority: 255
+    port number: 1
+    port state: 63
+details partner lacp pdu:
+    system priority: 127
+    system mac address: aa:aa:aa:aa:aa:aa
+    oper key: 11
+    port priority: 127
+    port number: 22
+    port state: 63
+
+Slave Interface: ens3f1
+MII Status: up
+Speed: 1000 Mbps
+Duplex: full
+Link Failure Count: 0
+Permanent HW addr: 00:11:22:33:44:55
+Slave queue ID: 0
+Aggregator ID: 20
+Actor Churn State: none
+Partner Churn State: none
+Actor Churned Count: 0
+Partner Churned Count: 0
+details actor lacp pdu:
+    system priority: 65535
+    system mac address: aa:bb:cc:dd:ee:ff
+    port key: 9
+    port priority: 255
+    port number: 2
+    port state: 63
+details partner lacp pdu:
+    system priority: 127
+    system mac address: aa:aa:aa:aa:aa:aa
+    oper key: 11
+    port priority: 127
+    port number: 23
+    port state: 63
+```
