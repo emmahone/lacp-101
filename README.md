@@ -161,26 +161,19 @@ sequenceDiagram
   LACP_Participant->>Layer2_Switch: Send LACPDU
   Layer2_Switch->>LACP_Participant: Send Response
 
-  loop Negotiation Loop
+  alt Compatibility Check
     LACP_Participant->>LACP_Participant: Validate LACPDU
     LACP_Participant->>LACP_Participant: Check Compatibility
-
-    alt Compatibility Check
-      LACP_Participant->>Layer2_Switch: Send LACPDU
-      Layer2_Switch->>LACP_Participant: Send Response
-    else Incompatible
-      LACP_Participant-->>Layer2_Switch: Incompatible Parameters
-      Layer2_Switch-->>LACP_Participant: Incompatible Parameters
-    end
-
-    alt Agreement Reached
-      LACP_Participant-->>Layer2_Switch: Agree on Parameters
-      Layer2_Switch-->>LACP_Participant: Agree on Parameters
-      break
-    else Agreement Not Reached
-      LACP_Participant->>LACP_Participant: Continue Negotiation
-    end
+    LACP_Participant->>Layer2_Switch: Send LACPDU
+    Layer2_Switch->>LACP_Participant: Send Response
+  else incompatible
+    LACP_Participant-->>Layer2_Switch: Incompatible Parameters
+    Layer2_Switch-->>LACP_Participant: Incompatible Parameters
   end
+
+  LACP_Participant-->>Layer2_Switch: Agree on Parameters
+  Layer2_Switch-->>LACP_Participant: Agree on Parameters
+  LACP_Participant->>LACP_Participant: Continue Negotiation
 ```
 
 12. Once the negotiation is successfully completed, a LAG (Link Aggregation Group) is established between the LACP participant and the Layer 2 switch.
@@ -192,27 +185,24 @@ sequenceDiagram
   LACP_Participant->>Layer2_Switch: Send LACPDU
   Layer2_Switch->>LACP_Participant: Send Response
 
-  loop Negotiation Loop
+  alt Compatability Check
     LACP_Participant->>LACP_Participant: Validate LACPDU
     LACP_Participant->>LACP_Participant: Check Compatibility
 
-    alt Compatibility Check
-      LACP_Participant->>Layer2_Switch: Send LACPDU
-      Layer2_Switch->>LACP_Participant: Send Response
-    else Incompatible
-      LACP_Participant-->>Layer2_Switch: Incompatible Parameters
-      Layer2_Switch-->>LACP_Participant: Incompatible Parameters
-    end
-
-    alt Agreement Reached
-      LACP_Participant-->>Layer2_Switch: Agree on Parameters
-      Layer2_Switch-->>LACP_Participant: Agree on Parameters
-      break
-    else Agreement Not Reached
-      LACP_Participant->>LACP_Participant: Continue Negotiation
-    end
+    LACP_Participant->>Layer2_Switch: Send LACPDU
+    Layer2_Switch->>LACP_Participant: Send Response
+  else Incompatible
+    LACP_Participant-->>Layer2_Switch: Incompatible Parameters
+    Layer2_Switch-->>LACP_Participant: Incompatible Parameters
   end
 
+  alt Agreement Reached
+    LACP_Participant-->>Layer2_Switch: Agree on Parameters
+    Layer2_Switch-->>LACP_Participant: Agree on Parameters
+  else Agreement Not Reached
+    LACP_Participant->>LACP_Participant: Continue Negotiation
+  end
+  
   LACP_Participant-->>Layer2_Switch: Establish LAG
 ```
 
