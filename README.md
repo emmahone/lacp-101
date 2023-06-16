@@ -242,25 +242,15 @@ Here's a breakdown of the components typically found in an LACPDU:
 
 These components within the LACPDU frame are crucial for LACP-enabled devices to exchange information and negotiate the establishment and maintenance of link aggregation groups (LAGs). The LACPDU frames are exchanged between LACP participants, such as switches, routers, or servers, to facilitate the formation and operation of LAGs, providing increased bandwidth and link redundancy in network connections.
 
-# History of LACP
-The `IEEE 802.3ad` standard, which defines Link Aggregation Control Protocol (LACP), has evolved over the years to accommodate advancements in networking technologies and address the changing needs of the industry. Here are some key developments in the evolution of the IEEE 802.3ad standard:
+# How can you confirm the LACP configuration of a bond in RHEL/Fedora?
+To confirm if an LACP mode 4 bond is properly configured in a RHEL (Red Hat Enterprise Linux) system, you can perform the following steps:
 
-- `Original Standard (802.3ad-2000)`: The initial version of the standard was released in 2000 and defined the basic mechanisms for link aggregation using LACP. It specified the protocol's frame format, negotiation procedures, and methods for load balancing traffic across aggregated links.
+1. `Check the configuration files`: Open the configuration file for network interfaces, typically located in the `/etc/sysconfig/network-scripts/` directory. Look for the configuration file associated with the bond interface (e.g., `ifcfg-bondX`, where X is the bond interface number). Verify that the configuration file contains the appropriate settings for LACP mode 4. Specifically, ensure that the `BONDING_OPTS` parameter includes the `mode=4` option.
 
-- `Updates and Amendments`: Over time, several updates and amendments were introduced to enhance the functionality and address implementation issues. These updates include revisions to improve interoperability, clarify certain procedures, and address security concerns.
+2. `Verify bond module loading`: Confirm that the bonding module is loaded into the kernel. You can check this by running the command `lsmod | grep bonding` and verifying that it returns output indicating the bonding module is loaded.
 
-- `IEEE 802.1AX (2008)`: To provide a unified approach to link aggregation across different IEEE standards, the IEEE 802.1AX standard was introduced in 2008. It incorporated the LACP specifications from IEEE 802.3ad and extended them to other IEEE 802 standards, such as Ethernet bridging. IEEE 802.1AX defines the Link Aggregation Control Protocol (LACP) as part of the overall Link Aggregation standard.
-
-- `Increased Capacity`: As networking technologies advanced, the need for higher link capacities and greater scalability became apparent. To address these requirements, the standard was enhanced to support higher link speeds, including Gigabit Ethernet, 10 Gigabit Ethernet, and beyond.
-
-- `Link Aggregation in Data Centers`: With the rise of data centers and cloud computing, the IEEE 802.3ad standard was further extended to address the specific needs of these environments. Amendments were introduced to provide additional flexibility, such as support for multi-chassis link aggregation (MLAG) and enhanced management capabilities.
-
-- `Enhanced Load Balancing`: Load balancing algorithms have been refined over time to improve traffic distribution across aggregated links. Newer versions of the standard allow for more sophisticated load balancing schemes based on Layer 3 and Layer 4 information, such as source and destination IP addresses or transport protocol ports.
-
-It's important to note that while the IEEE 802.3ad standard has evolved, the basic principles and functionality of LACP have remained largely consistent. The updates and amendments primarily focus on enhancing interoperability, accommodating higher speeds, and adapting to changing network requirements.
-
-
-```yaml
+3. `Check bond status`: Use the `cat /proc/net/bonding/bondX` command, where X is the bond interface number, to display the status and configuration of the bond interface. Look for the `Bonding Mode: IEEE 802.3ad Dynamic link aggregation` line, which confirms that the bond interface is configured in LACP mode 4.
+```bash
 # cat /proc/net/bonding/bond0
 Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
 
@@ -338,3 +328,27 @@ details partner lacp pdu:
     port number: 23
     port state: 63
 ```
+
+4. `Monitor bond interface activity`: Monitor the bond interface's activity using tools like `ifconfig` or `ip` commands. Verify that the bond interface shows the expected configuration, including the correct number of slave interfaces, the correct link state, and the aggregated bandwidth.
+
+5. `Test network connectivity`: Validate network connectivity by sending traffic through the bond interface and verifying that it functions as expected. You can perform network tests, such as pinging other devices or transferring data, to ensure that traffic is being load balanced across the bonded links.
+
+By following these steps, you can confirm if an LACP mode 4 bond is properly configured in a RHEL system and ensure that it is functioning as intended.
+
+# History of LACP
+The `IEEE 802.3ad` standard, which defines Link Aggregation Control Protocol (LACP), has evolved over the years to accommodate advancements in networking technologies and address the changing needs of the industry. Here are some key developments in the evolution of the IEEE 802.3ad standard:
+
+- `Original Standard (802.3ad-2000)`: The initial version of the standard was released in 2000 and defined the basic mechanisms for link aggregation using LACP. It specified the protocol's frame format, negotiation procedures, and methods for load balancing traffic across aggregated links.
+
+- `Updates and Amendments`: Over time, several updates and amendments were introduced to enhance the functionality and address implementation issues. These updates include revisions to improve interoperability, clarify certain procedures, and address security concerns.
+
+- `IEEE 802.1AX (2008)`: To provide a unified approach to link aggregation across different IEEE standards, the IEEE 802.1AX standard was introduced in 2008. It incorporated the LACP specifications from IEEE 802.3ad and extended them to other IEEE 802 standards, such as Ethernet bridging. IEEE 802.1AX defines the Link Aggregation Control Protocol (LACP) as part of the overall Link Aggregation standard.
+
+- `Increased Capacity`: As networking technologies advanced, the need for higher link capacities and greater scalability became apparent. To address these requirements, the standard was enhanced to support higher link speeds, including Gigabit Ethernet, 10 Gigabit Ethernet, and beyond.
+
+- `Link Aggregation in Data Centers`: With the rise of data centers and cloud computing, the IEEE 802.3ad standard was further extended to address the specific needs of these environments. Amendments were introduced to provide additional flexibility, such as support for multi-chassis link aggregation (MLAG) and enhanced management capabilities.
+
+- `Enhanced Load Balancing`: Load balancing algorithms have been refined over time to improve traffic distribution across aggregated links. Newer versions of the standard allow for more sophisticated load balancing schemes based on Layer 3 and Layer 4 information, such as source and destination IP addresses or transport protocol ports.
+
+It's important to note that while the IEEE 802.3ad standard has evolved, the basic principles and functionality of LACP have remained largely consistent. The updates and amendments primarily focus on enhancing interoperability, accommodating higher speeds, and adapting to changing network requirements.
+
