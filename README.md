@@ -289,9 +289,9 @@ NAME="Bond bond0"
 UUID=ad33d8b0-1f7b-cab9-9447-ba07f855b143
 ```
 
-3. `Verify bond module loading`: Confirm that the bonding module is loaded into the kernel. You can check this by running the command `lsmod | grep bonding` and verifying that it returns output indicating the bonding module is loaded.
+2. `Verify bond module loading`: Confirm that the bonding module is loaded into the kernel. You can check this by running the command `lsmod | grep bonding` and verifying that it returns output indicating the bonding module is loaded.
 
-4. `Check bond status`: Use the `cat /proc/net/bonding/bondX` command, where X is the bond interface number, to display the status and configuration of the bond interface. Look for the `Bonding Mode: IEEE 802.3ad Dynamic link aggregation` line, which confirms that the bond interface is configured in LACP mode 4.
+3. `Check bond status`: Use the `cat /proc/net/bonding/bondX` command, where X is the bond interface number, to display the status and configuration of the bond interface. Look for the `Bonding Mode: IEEE 802.3ad Dynamic link aggregation` line, which confirms that the bond interface is configured in LACP mode 4.
 ```bash
 # cat /proc/net/bonding/bond0
 Ethernet Channel Bonding Driver: v3.7.1 (April 27, 2011)
