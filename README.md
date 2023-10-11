@@ -242,6 +242,41 @@ Here's a breakdown of the components typically found in an LACPDU:
 
 These components within the LACPDU frame are crucial for LACP-enabled devices to exchange information and negotiate the establishment and maintenance of link aggregation groups (LAGs). The LACPDU frames are exchanged between LACP participants, such as switches, routers, or servers, to facilitate the formation and operation of LAGs, providing increased bandwidth and link redundancy in network connections.
 
+# Bonding modes
+The modes associated with LACP (and link aggregation in general) in Linux bonding are:
+
+1. **balance-rr (mode=0)**
+   - Round-robin policy: Packets are transmitted sequentially on each bonding slave interface.
+   - This mode provides load balancing and fault tolerance.
+
+2. **active-backup (mode=1)**
+   - Only one slave is active at a given time. If the active slave fails, another slave takes over.
+   - This mode provides fault tolerance.
+
+3. **balance-xor (mode=2)**
+   - Based on XOR (exclusive OR) calculations on the source and destination MAC addresses or IP addresses, this mode selects the outgoing slave.
+   - Provides load balancing and fault tolerance.
+
+4. **broadcast (mode=3)**
+   - Broadcasts all traffic on all slave interfaces.
+   - This mode provides fault tolerance.
+
+5. **802.3ad (mode=4)**
+   - This is the LACP mode. It aggregates interfaces by using the LACP protocol.
+   - It provides load balancing based on the hash of the source and destination MAC address, IP address, and port number. 
+   - Also provides fault tolerance.
+
+6. **balance-tlb (mode=5)**
+   - Adaptive transmit load balancing.
+   - Outgoing traffic is balanced based on the current load of each slave. Incoming traffic is received by the current slave.
+   - If the outgoing slave fails, another slave takes over its traffic.
+
+7. **balance-alb (mode=6)**
+   - Adaptive load balancing.
+   - Similar to balance-tlb, but it also has a receive load balancing (rlb) mechanism for IPV4 traffic. This involves ARP negotiation.
+
+Among these, only the `802.3ad` (mode=4) utilizes LACP. The other modes are related to link aggregation but don't necessarily use the LACP protocol for negotiation.
+
 # How can you confirm the LACP configuration of a bond in RHEL/Fedora?
 To confirm if an LACP mode 4 bond is properly configured in a RHEL (Red Hat Enterprise Linux) system, you can perform the following steps:
 
